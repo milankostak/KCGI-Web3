@@ -1,59 +1,112 @@
 package edu.kcg.web3.lecture07.controller
 
-import edu.kcg.web3.lecture07.component.PeopleDatabaseSimulator
 import edu.kcg.web3.lecture07.model.Person
+import org.apache.tomcat.util.codec.binary.Base64
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.http.*
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.client.RestTemplate
 
 
-@RestController
-@RequestMapping("/people")
-class PeopleController(@Autowired private val databaseSimulator: PeopleDatabaseSimulator) {
+@Controller
+@RequestMapping("/person")
+class PeopleController(@Autowired private val restTemplate: RestTemplate) {
 
-    @GetMapping
-    fun getAll(): List<Person> {
-        if (databaseSimulator.getAll().isEmpty()) {
-            databaseSimulator.insert(Person("John", 35, "Java"))
+    private val logger = LoggerFactory.getLogger(PeopleController::class.java)
+
+    private val serverBaseName = "http://127.0.0.1:8080"
+
+    @RequestMapping("/{id}")
+    fun getAll(model: Model, @PathVariable id: Long): String {
+        try {
+            val personResponse =
+                restTemplate.getForEntity("$serverBaseName/people/$id", Person::class.java)
+            if (personResponse.statusCode == HttpStatus.OK) {
+                model["person"] = personResponse.body.toString()
+            } else {
+                model["person"] = "An error occurred. Status code was ${personResponse.statusCodeValue}"
+                logger.warn("An error occurred while getting a person with id=$id. Status code was ${personResponse.statusCodeValue}")
+            }
+        } catch (e: Exception) {
+            logger.error("An error occurred while getting a person with id=$id", e)
+            model["person"] = "Error while getting the person"
         }
-        return databaseSimulator.getAll()
+        model["title"] = "Person page"
+        return "person"
     }
 
-    @GetMapping("/{id}")
-    fun getOne(@PathVariable id: Int?): ResponseEntity<Person> {
-        val person = databaseSimulator.getById(id ?: -1)
-        return if (person != null) {
-            ResponseEntity<Person>(person, HttpStatus.OK)
+    @RequestMapping("/insert/{name}/{age}/{language}")
+    fun insertPerson(
+        model: Model, @PathVariable name: String,
+        @PathVariable age: Int, @PathVariable language: String
+    ): String {
+        val headers = getHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+        val personJSON = "{\"name\":\"$name\",\"age\":$age,\"favouriteLanguage\":\"$language\"}"
+
+        val request = HttpEntity(personJSON, headers)
+        val response = restTemplate.exchange("$serverBaseName/people", HttpMethod.POST, request, Void::class.java)
+
+        if (response.statusCode == HttpStatus.OK) {
+            model["person"] = "Person inserted."
         } else {
-            ResponseEntity(HttpStatus.NOT_FOUND)
+            model["person"] = "An error occurred."
+            logger.warn("An error occurred while inserting a person with name=$name, age=$age, language=$language. Status code was ${response.statusCodeValue}")
         }
+
+        model["title"] = "Create a person"
+        return "person"
     }
 
-    @PostMapping(consumes = ["application/json"])
-    fun insertPerson(@RequestBody person: Person): HttpEntity<*> {
-        databaseSimulator.insert(person)
-        return ResponseEntity.EMPTY
+    @RequestMapping("/update/{id}/{name}/{age}/{language}")
+    fun updatePerson(
+        model: Model, @PathVariable id: String, @PathVariable name: String,
+        @PathVariable age: String, @PathVariable language: String
+    ): String {
+        val headers = getHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+        val personJSON = "{\"name\":\"$name\",\"age\":$age,\"favouriteLanguage\":\"$language\",\"id\":$id}"
+
+        val request = HttpEntity(personJSON, headers)
+        val response = restTemplate.exchange("$serverBaseName/people", HttpMethod.PUT, request, Void::class.java)
+
+        if (response.statusCode == HttpStatus.OK) {
+            model["person"] = "Person updated."
+        } else {
+            model["person"] = "An error occurred."
+            logger.warn("An error occurred while updating the person with id=$id, name=$name, age=$age, language=$language. Status code was ${response.statusCodeValue}")
+        }
+
+        model["title"] = "Update person"
+        return "person"
     }
 
-    @PutMapping(consumes = ["application/json"])
-    fun updatePerson(@RequestBody person: Person): HttpEntity<*> {
-        databaseSimulator.update(person)
-        return ResponseEntity.EMPTY
+    @RequestMapping("/delete/{id}")
+    fun deletePerson(model: Model, @PathVariable id: Long): String {
+        val request = HttpEntity<Void>(getHeaders())
+        val response = restTemplate.exchange("$serverBaseName/people/$id", HttpMethod.DELETE, request, Void::class.java)
+
+        if (response.statusCode == HttpStatus.OK) {
+            model["person"] = "Person deleted."
+        } else {
+            model["person"] = "An error occurred."
+            logger.warn("An error occurred while deleting the person with id=$id. Status code was ${response.statusCodeValue}")
+        }
+
+        model["title"] = "Delete person"
+        return "person"
     }
 
-    @DeleteMapping(consumes = ["application/json"])
-    fun deletePerson(@RequestBody person: Person): HttpEntity<*> {
-        databaseSimulator.delete(person)
-        return ResponseEntity.EMPTY
-    }
-
-    @DeleteMapping("/{id}")
-    fun deletePersonById(@PathVariable id: Int?): HttpEntity<*> {
-        databaseSimulator.getById(id ?: -1)
-            ?.let { databaseSimulator.delete(it) }
-        return ResponseEntity.EMPTY
+    private fun getHeaders(): HttpHeaders {
+        val credentials = String(Base64.encodeBase64("admin:password".toByteArray()))
+        val headers = HttpHeaders()
+        headers.add("Authorization", "Basic $credentials")
+        return headers
     }
 
 }

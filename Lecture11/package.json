@@ -5,11 +5,12 @@
   },
   "dependencies": {
     "express": "4.17.1",
-    "express-handlebars": "5.3.2"
+    "ws": "7.5.1",
+    "mqtt": "4.2.8"
   },
-  "description": "Introduction to server side JS.",
+  "description": "Introduction to server side JS. (2)",
   "main": "server.js",
-  "name": "lecture11",
+  "name": "lecture11-ajax_ws_mqtt",
   "scripts": {
     "start": "node server.js"
   },

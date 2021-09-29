@@ -1,1 +1,1 @@
-rootProject.name = "lecture06"
+rootProject.name = "Lecture06-REST,GraphQL,JSON"

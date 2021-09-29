@@ -31,10 +31,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.3")
     implementation("org.bouncycastle:bcprov-jdk15on:1.68") // password hashing
 
-    implementation("com.graphql-java:graphql-java:16.2")
-    implementation("com.graphql-java:graphql-java-spring-boot-starter-webmvc:2.0")
-    implementation("com.graphql-java-kickstart:graphiql-spring-boot-starter:11.1.0")
-
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 

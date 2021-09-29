@@ -1,112 +1,121 @@
 package edu.kcg.web3.lecture08.controller
 
-import edu.kcg.web3.lecture08.model.Person
-import org.apache.tomcat.util.codec.binary.Base64
-import org.slf4j.LoggerFactory
+import edu.kcg.web3.lecture08.repository.PersonRepository
+import edu.kcg.web3.lecture08.table.Person
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.*
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.client.RestTemplate
-
+import org.springframework.web.bind.annotation.*
 
 @Controller
 @RequestMapping("/person")
-class PeopleController(@Autowired private val restTemplate: RestTemplate) {
+class PeopleController(
+    @Autowired val personRepository: PersonRepository,
+    @Autowired val passwordEncoder: PasswordEncoder
+) {
 
-    private val logger = LoggerFactory.getLogger(PeopleController::class.java)
+    @GetMapping("/show")
+    fun showAll(model: Model, @RequestParam showDeleted: Boolean?): String {
+        model["title"] = "All people"
 
-    private val serverBaseName = "http://127.0.0.1:8080"
+        val people = if (showDeleted == null || showDeleted == true) {
+            personRepository.findAll()
+        } else {
+            personRepository.findAllValid()
+        }
+        model["people"] = people
 
-    @RequestMapping("/{id}")
-    fun getAll(model: Model, @PathVariable id: Long): String {
-        try {
-            val personResponse =
-                restTemplate.getForEntity("$serverBaseName/people/$id", Person::class.java)
-            if (personResponse.statusCode == HttpStatus.OK) {
-                model["person"] = personResponse.body.toString()
-            } else {
-                model["person"] = "An error occurred. Status code was ${personResponse.statusCodeValue}"
-                logger.warn("An error occurred while getting a person with id=$id. Status code was ${personResponse.statusCodeValue}")
+        if (!model.containsAttribute("message")) {
+            model["message"] = ""
+        }
+        return "show"
+    }
+
+    @GetMapping("/insert")
+    fun insertGet(model: Model): String {
+        model["title"] = "Inserting person"
+        model["message"] = ""
+        return "insert"
+    }
+
+    @PostMapping("/insert")
+    fun insertPost(
+        model: Model, @RequestParam email: String?, @RequestParam password: String?, @RequestParam age: String?
+    ): String {
+        return if (email.isNullOrBlank() || password.isNullOrBlank() || age.isNullOrBlank()) {
+            model["message"] = "Some parameters were empty or blank!"
+            model["title"] = "Inserting person"
+            "insert"
+        } else {
+            val person = Person().also {
+                it.email = email
+                it.passwordHash = passwordEncoder.encode(password)
+                it.age = age.toLongOrNull() ?: 0
             }
-        } catch (e: Exception) {
-            logger.error("An error occurred while getting a person with id=$id", e)
-            model["person"] = "Error while getting the person"
+            personRepository.save(person)
+            model["message"] = "Changes saved"
+            showAll(model, null)
         }
-        model["title"] = "Person page"
-        return "person"
+
     }
 
-    @RequestMapping("/insert/{name}/{age}/{language}")
-    fun insertPerson(
-        model: Model, @PathVariable name: String,
-        @PathVariable age: Int, @PathVariable language: String
+    @GetMapping("/permanent-delete/{id}")
+    fun permanentDelete(model: Model, @PathVariable id: Long): String {
+        personRepository.deleteById(id)
+        model["title"] = "Deleted"
+        return "delete"
+    }
+
+    @GetMapping("/delete/{id}")
+    fun delete(model: Model, @PathVariable id: Long): String {
+        personRepository.markAsDeleted(id)
+        model["title"] = "Deleted"
+        return "delete"
+    }
+
+    @GetMapping("/update/{id}")
+    fun updateGet(model: Model, @PathVariable id: Long): String {
+        model["title"] = "Updating person"
+
+        val personOptional = personRepository.findById(id)
+        if (personOptional.isEmpty) {
+            model["person"] = Person()
+            model["message"] = "Person not found"
+        } else {
+            model["person"] = personOptional.get()
+            model["message"] = ""
+        }
+        return "update"
+    }
+
+    @PostMapping("/update")
+    fun updatePost(
+        model: Model,
+        @RequestParam id: Long?,
+        @RequestParam email: String?,
+        @RequestParam password: String?,
+        @RequestParam age: String?
     ): String {
-        val headers = getHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-        val personJSON = "{\"name\":\"$name\",\"age\":$age,\"favouriteLanguage\":\"$language\"}"
 
-        val request = HttpEntity(personJSON, headers)
-        val response = restTemplate.exchange("$serverBaseName/people", HttpMethod.POST, request, Void::class.java)
-
-        if (response.statusCode == HttpStatus.OK) {
-            model["person"] = "Person inserted."
+        if (id == null || email.isNullOrBlank() || age.isNullOrBlank()) {
+            model["message"] = "Update failed. Some properties were empty or blank!"
         } else {
-            model["person"] = "An error occurred."
-            logger.warn("An error occurred while inserting a person with name=$name, age=$age, language=$language. Status code was ${response.statusCodeValue}")
+            personRepository.findByIdOrNull(id)?.also {
+                it.email = email
+                if (password?.isNotBlank() == true) {
+                    it.passwordHash = passwordEncoder.encode(password)
+                }
+                it.age = age.toLongOrNull() ?: 0
+                personRepository.save(it)
+                model["message"] = "Changes saved"
+            } ?: let {
+                model["message"] = "Person with id=$id was not found"
+            }
         }
-
-        model["title"] = "Create a person"
-        return "person"
-    }
-
-    @RequestMapping("/update/{id}/{name}/{age}/{language}")
-    fun updatePerson(
-        model: Model, @PathVariable id: String, @PathVariable name: String,
-        @PathVariable age: String, @PathVariable language: String
-    ): String {
-        val headers = getHeaders()
-        headers.contentType = MediaType.APPLICATION_JSON
-        val personJSON = "{\"name\":\"$name\",\"age\":$age,\"favouriteLanguage\":\"$language\",\"id\":$id}"
-
-        val request = HttpEntity(personJSON, headers)
-        val response = restTemplate.exchange("$serverBaseName/people", HttpMethod.PUT, request, Void::class.java)
-
-        if (response.statusCode == HttpStatus.OK) {
-            model["person"] = "Person updated."
-        } else {
-            model["person"] = "An error occurred."
-            logger.warn("An error occurred while updating the person with id=$id, name=$name, age=$age, language=$language. Status code was ${response.statusCodeValue}")
-        }
-
-        model["title"] = "Update person"
-        return "person"
-    }
-
-    @RequestMapping("/delete/{id}")
-    fun deletePerson(model: Model, @PathVariable id: Long): String {
-        val request = HttpEntity<Void>(getHeaders())
-        val response = restTemplate.exchange("$serverBaseName/people/$id", HttpMethod.DELETE, request, Void::class.java)
-
-        if (response.statusCode == HttpStatus.OK) {
-            model["person"] = "Person deleted."
-        } else {
-            model["person"] = "An error occurred."
-            logger.warn("An error occurred while deleting the person with id=$id. Status code was ${response.statusCodeValue}")
-        }
-
-        model["title"] = "Delete person"
-        return "person"
-    }
-
-    private fun getHeaders(): HttpHeaders {
-        val credentials = String(Base64.encodeBase64("admin:password".toByteArray()))
-        val headers = HttpHeaders()
-        headers.add("Authorization", "Basic $credentials")
-        return headers
+        return showAll(model, null)
     }
 
 }

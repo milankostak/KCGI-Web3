@@ -1,18 +1,38 @@
 {
-  "author": {
-    "name": "Milan Kostak",
-    "email": "m_kostak@kcg.edu"
-  },
+  "name": "first-app",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "express": "4.17.1",
-    "ws": "7.5.1",
-    "mqtt": "4.2.8"
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
   },
-  "description": "Introduction to server side JS. (2)",
-  "main": "server.js",
-  "name": "lecture12",
   "scripts": {
-    "start": "node server.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "version": "1.0.0"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

@@ -1,1 +1,1 @@
-rootProject.name = "lecture07"
+rootProject.name = "Lecture07-WebServices"

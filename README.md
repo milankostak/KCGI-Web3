@@ -14,31 +14,28 @@
 [Kotlin Fundamentals III](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture04a)
 
 ## Lecture 04b
-[MVC](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture04b)
+[Spring Boot I](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture04b)
 
 ## Lecture 05
-[Spring Boot](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture05)
+[Spring Boot II](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture05)
 
 ## Lecture 06
-[Spring](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture06)
+[REST, GraphQL, JSON](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture06)
 
 ## Lecture 07
-[REST, GraphQL, JSON](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture07)
+[Web services](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture07)
 
 ## Lecture 08
-[Web services](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture08)
+[Databases, ORM, Hibernate I](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture08)
 
 ## Lecture 09
-[Databases, ORM, Hibernate I](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture09)
+[Databases, ORM, Hibernate II](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture09)
 
 ## Lecture 10
-[Databases, ORM, Hibernate II](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture10)
+[Express.js](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture10)
 
 ## Lecture 11
-[Express.js](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture11)
+[AJAX, Web Sockets, MQTT](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture11)
 
 ## Lecture 12
-[AJAX, Web Sockets](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture12)
-
-## Lecture 13
-[React.js, Next.js](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture13)
+[React.js](https://github.com/milankostak/KCGI-Web3/tree/master/Lecture12)

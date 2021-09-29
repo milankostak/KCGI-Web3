@@ -3,14 +3,13 @@ package edu.kcg.web3.lecture06.config
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
 
 
 @EnableWebSecurity
@@ -41,26 +40,23 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
     override fun configure(http: HttpSecurity) {
-        logger.info("Configuring Spring security")
-        http.logout() // configuring logout page
+        logger.info("Configuring security")
+        http.logout()
             .logoutUrl("/logout")
             .logoutSuccessUrl("/")
             .invalidateHttpSession(true)
-            // ending configuring logout page and continuing
             .and()
-            // configuring authorization
             .authorizeRequests()
-            // /home can be accessed by anyone with a role USER or ADMIN
-            .antMatchers("/home").hasAnyRole("USER", "ADMIN")
-            // /admin and all subpages can be accessed by anyone with a role ADMIN
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            // root page (index) can be access by anyone even without logging int
-            .antMatchers("/").permitAll()
-            // ending configuring authorization and continuing
-            .and()
-            // allowing default login page at /login URL
-            // with automatic redirection
-            .formLogin()
+            .antMatchers(HttpMethod.GET, "/people/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/people/**").hasAnyRole("USER", "ADMIN")
+            .antMatchers(HttpMethod.PUT, "/people/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/people/**").hasRole("ADMIN")
+            .antMatchers("/graphql").permitAll()
+            .antMatchers("/graphiql").permitAll()
+            .and().formLogin()
+            .and().httpBasic()
+            .and().cors()
+            .and().csrf().disable()
     }
 
 }
