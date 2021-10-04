@@ -21,8 +21,8 @@ class MovieController(@Autowired private val restTemplate: RestTemplate) {
     }
 
     @PostMapping("/movies")
-    fun searchMovies(model: Model, @RequestParam name: String?): String {
-        val url = "https://www.omdbapi.com/?apikey=da03bdf7&s=$name&r=json"
+    fun searchMovies(model: Model, @RequestParam movie: String?): String {
+        val url = "https://www.omdbapi.com/?apikey=da03bdf7&s=$movie&r=json"
         val movieSearchResult = restTemplate.getForObject(url, MovieSearchResult::class.java)
 
         model["title"] = "Search movies"
