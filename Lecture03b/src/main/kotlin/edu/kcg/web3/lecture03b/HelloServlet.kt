@@ -29,11 +29,11 @@ class HelloServlet : HttpServlet() {
             writer.println("<body>")
             writer.println("<p>$message</p>")
             writer.println("<p>some useful text</p>")
-            writer.println("<p>$queryString</p>")
+            writer.println("<p>${queryString.replace("&", "&amp;")}</p>")
             while (parameterNames.hasMoreElements()) {
                 val parameter = parameterNames.nextElement().toString()
                 val value = request.getParameter(parameter)
-                writer.println("<p>Parameter: $parameter\nValue: $value</p>")
+                writer.println("<p>Parameter: $parameter Value: $value</p>")
             }
             writer.println("</body>")
             writer.println("</html>")
