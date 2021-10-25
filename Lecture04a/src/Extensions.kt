@@ -15,4 +15,5 @@ fun main() {
 //    val number = null
     println(number.addFive())
     println(number)
+    println(number.addFive().addFive().addFive())
 }

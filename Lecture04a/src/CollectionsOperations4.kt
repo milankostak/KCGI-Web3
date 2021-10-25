@@ -37,7 +37,7 @@ fun main() {
 
     // get all brands sorted without duplicates
     val brandsWithoutDuplicates = cars
-            .map { it.color.toLowerCase() }
+            .map { it.color.lowercase() }
             .distinct()
             .sorted()
     println(brandsWithoutDuplicates)
