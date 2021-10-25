@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/person")
 class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
 
-    @RequestMapping("/show")
+    @GetMapping("/show")
     fun showAll(model: Model): String {
         model["title"] = "All people"
 
@@ -21,16 +21,16 @@ class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
         }
         model["people"] = databaseSimulator.getAll().sortedBy { it.age }
 
-        if (!model.containsAttribute("error")) {
-            model["error"] = ""
+        if (!model.containsAttribute("msg")) {
+            model["msg"] = ""
         }
         return "show"
     }
 
     @GetMapping("/insert")
     fun insertGet(model: Model): String {
-        model["title"] = "Inserting person"
-        model["error"] = ""
+        model["title"] = "Inserting a person"
+        model["msg"] = ""
         return "insert"
     }
 
@@ -41,10 +41,10 @@ class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
         model["title"] = "Inserting a person"
 
         if (name.isNullOrBlank() || age.isNullOrBlank() || language.isNullOrBlank()) {
-            model["error"] = "Some parameters were empty or blank!"
+            model["msg"] = "Some parameters were empty or blank!"
         } else {
             databaseSimulator.insert(Person(name, age.toIntOrNull() ?: -1, language))
-            model["error"] = "Changes saved"
+            model["msg"] = "Changes saved"
         }
 
         return "insert"
@@ -55,18 +55,18 @@ class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
 //        val person = databaseSimulator.getById(id)
 //        if (person != null) {
 //            databaseSimulator.delete(person)
-//            model["error"] = "Person ${person.name} deleted"
+//            model["msg"] = "Person '${person.name}' deleted"
 //        } else {
-//            model["error"] = "Person not found"
+//            model["msg"] = "Person with id=$id not found"
 //        }
 
         databaseSimulator.getById(id)
             ?.let {
                 databaseSimulator.delete(it)
-                model["error"] = "Person ${it.name} was deleted"
+                model["msg"] = "Person '${it.name}' was deleted"
             }
             ?: let {
-                model["error"] = "Person with id=$id not found"
+                model["msg"] = "Person with id=$id not found"
             }
 
         model["title"] = "Delete"
@@ -75,16 +75,16 @@ class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
 
     @GetMapping("/update/{id}")
     fun updateGet(model: Model, @PathVariable id: Int): String {
-        model["title"] = "Updating person"
+        model["title"] = "Updating a person"
 
         databaseSimulator.getById(id)
             ?.let {
                 model["person"] = it
-                model["error"] = ""
+                model["msg"] = ""
             }
             ?: let {
                 model["person"] = Person()
-                model["error"] = "Person not found"
+                model["msg"] = "Person with id=$id not found"
             }
         return "update"
     }
@@ -95,7 +95,7 @@ class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
     ): String {
 
         if (id == null || age.isNullOrBlank() || language.isNullOrBlank()) {
-            model["error"] = "Update failed. Some properties were empty"
+            model["msg"] = "Update failed. Some properties were empty or blank!"
         } else {
             databaseSimulator.getById(id)?.let {
 //                it.apply {
@@ -105,9 +105,9 @@ class PeopleController(@Autowired val databaseSimulator: DatabaseSimulator) {
                 it.age = age.toIntOrNull() ?: -1
                 it.favouriteLanguage = language
                 databaseSimulator.update(it)
-                model["error"] = "Changes saved"
+                model["msg"] = "Changes saved"
             } ?: let {
-                model["error"] = "Person with id=$id was not found"
+                model["msg"] = "Person with id=$id was not found"
             }
         }
         return showAll(model)

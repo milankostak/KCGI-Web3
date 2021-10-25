@@ -10,7 +10,7 @@ class HomeController {
 
     @RequestMapping("/")
     fun index(model: Model): String {
-        model["title"] = "Home page"
+        model["title"] = "Home page title"
         return "home"
     }
 

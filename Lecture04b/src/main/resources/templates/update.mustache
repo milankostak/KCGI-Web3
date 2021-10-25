@@ -2,12 +2,9 @@
 
 <p><a href="/">Go home</a></p>
 
-<h1>Update person</h1>
+<h1>Update {{person.name}}</h1>
 
 <form action="/person/update" method="post">
-    <div>
-        <label>name: <br><input type="text" name="name" value="{{person.name}}" disabled/> </label>
-    </div>
     <div>
         <label>age: <br><input type="number" name="age" value="{{person.age}}"/> </label>
     </div>
@@ -20,6 +17,6 @@
     </div>
 </form>
 
-<p style="color:red">{{error}}</p>
+<p>{{msg}}</p>
 
 {{> footer}}
