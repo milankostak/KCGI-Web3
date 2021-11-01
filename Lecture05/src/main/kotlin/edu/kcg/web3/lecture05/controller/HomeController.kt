@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
-
 @Controller
 class HomeController {
 
@@ -58,7 +57,7 @@ class HomeController {
 
     @PostMapping("/405-test")
     fun test405(model: Model): String {
-        model["title"] = "Greeting page"
+        model["title"] = "405 page"
         return "index"
     }
 

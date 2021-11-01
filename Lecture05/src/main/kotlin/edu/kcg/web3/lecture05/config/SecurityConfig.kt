@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 
-
 @EnableWebSecurity
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
@@ -50,9 +49,9 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .authorizeRequests()
             // /home can be accessed by anyone with a role USER or ADMIN
             .antMatchers("/home").hasAnyRole("USER", "ADMIN")
-            // /admin and all subpages can be accessed by anyone with a role ADMIN
+            // /admin and all its subpages can be accessed by anyone with a role ADMIN
             .antMatchers("/admin/**").hasRole("ADMIN")
-            // root page (index) can be access by anyone even without logging int
+            // root page (index) can be access by anyone even without logging in
             .antMatchers("/").permitAll()
             // ending configuring authorization and continuing
             .and()
