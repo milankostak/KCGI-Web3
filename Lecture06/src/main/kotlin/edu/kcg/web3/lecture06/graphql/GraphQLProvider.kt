@@ -48,10 +48,10 @@ class GraphQLProvider {
 
     private fun buildWiring(): RuntimeWiring {
         return RuntimeWiring.newRuntimeWiring()
-            .type(newTypeWiring("Query").dataFetcher("book", graphQLDataFetchers?.bookDataFetcher))
-            .type(newTypeWiring("Query").dataFetcher("books", graphQLDataFetchers?.booksDataFetcher))
-            .type(newTypeWiring("Query").dataFetcher("author", graphQLDataFetchers?.authorDataFetcher))
-            .type(newTypeWiring("Query").dataFetcher("authors", graphQLDataFetchers?.authorsDataFetcher))
+            .type(newTypeWiring("Query").dataFetcher("book", graphQLDataFetchers?.getBookDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("books", graphQLDataFetchers?.getBooksDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("author", graphQLDataFetchers?.getAuthorDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("authors", graphQLDataFetchers?.getAuthorsDataFetcher()))
             .build()
     }
 }

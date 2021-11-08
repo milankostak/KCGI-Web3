@@ -10,14 +10,15 @@ import org.springframework.stereotype.Component
 @Component
 class GraphQLDataFetchers {
 
-    val bookDataFetcher
-        get() = DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
+    fun getBookDataFetcher(): DataFetcher<Book?> {
+        return DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
             val bookId: String = dataFetchingEnvironment.getArgument("id")
             books.firstOrNull { it.id.toString() == bookId }
         }
+    }
 
-    val booksDataFetcher
-        get() = DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
+    fun getBooksDataFetcher(): DataFetcher<List<Book>> {
+        return DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
             val bookIds: List<String>? = dataFetchingEnvironment.getArgument("ids")
             if (bookIds == null || bookIds.isEmpty()) {
                 books
@@ -25,15 +26,17 @@ class GraphQLDataFetchers {
                 books.filter { bookIds.contains(it.id.toString()) }
             }
         }
+    }
 
-    val authorDataFetcher
-        get() = DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
+    fun getAuthorDataFetcher(): DataFetcher<Author?> {
+        return DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
             val authorId: String = dataFetchingEnvironment.getArgument("id")
             authors.firstOrNull { it.id.toString() == authorId }
         }
+    }
 
-    val authorsDataFetcher
-        get() = DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
+    fun getAuthorsDataFetcher(): DataFetcher<List<Author>> {
+        return DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
             val authorIds: List<String>? = dataFetchingEnvironment.getArgument("ids")
             if (authorIds == null || authorIds.isEmpty()) {
                 authors
@@ -41,6 +44,7 @@ class GraphQLDataFetchers {
                 authors.filter { authorIds.contains(it.id.toString()) }
             }
         }
+    }
 
     companion object {
         private val author1 = Author("Joanne", "Rowling", id = 1)
