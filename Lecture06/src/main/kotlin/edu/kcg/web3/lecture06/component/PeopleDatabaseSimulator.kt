@@ -27,23 +27,32 @@ class PeopleDatabaseSimulator {
         return person.id
     }
 
-    fun delete(person: Person) {
-        people.remove(person)
+    fun delete(person: Person): Boolean {
+        return people.remove(person)
     }
 
     fun update(person: Person) {
         if (person.id <= 0) {
             insert(person)
         } else {
+//            // very Kotlin-like way
+//            people.indexOfFirst { it.id == person.id }.let { index ->
+//                if (index >= 0) {
+//                    people[index] = person
+//                }
+//            }
+//            // very Kotlin-like way without if
+//            people.indexOfFirst { it.id == person.id }.takeIf { it >= 0 }?.let { people[it] = person }
+//            // very Java-like way
 //            val personDB = getById(person.id)
 //            if (personDB != null) {
 //                personDB.age = person.age
 //                personDB.favouriteLanguage = person.favouriteLanguage
 //            }
-            people.indexOfFirst { it.id == person.id }.let { index ->
-                if (index >= 0) {
-                    people[index] = person
-                }
+            // somewhere in the middle - readable Kotlin-like way
+            getById(person.id)?.let {
+                it.age = person.age
+                it.favouriteLanguage = person.favouriteLanguage
             }
         }
     }

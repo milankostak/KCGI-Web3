@@ -4,5 +4,5 @@ data class Author(
     val firstName: String = "",
     val lastName: String = "",
     val books: MutableList<Book> = mutableListOf(),
-    var id: Int = -1
+    var id: Int = -1,
 )

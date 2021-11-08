@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-
 @RestController
 @RequestMapping("/people")
 class PeopleController(@Autowired private val databaseSimulator: PeopleDatabaseSimulator) {
@@ -25,7 +24,7 @@ class PeopleController(@Autowired private val databaseSimulator: PeopleDatabaseS
     fun getOne(@PathVariable id: Int?): ResponseEntity<Person> {
         val person = databaseSimulator.getById(id ?: -1)
         return if (person != null) {
-            ResponseEntity<Person>(person, HttpStatus.OK)
+            ResponseEntity(person, HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
@@ -40,20 +39,22 @@ class PeopleController(@Autowired private val databaseSimulator: PeopleDatabaseS
     @PutMapping(consumes = ["application/json"])
     fun updatePerson(@RequestBody person: Person): HttpEntity<*> {
         databaseSimulator.update(person)
-        return ResponseEntity.EMPTY
+        return HttpEntity.EMPTY
     }
 
     @DeleteMapping(consumes = ["application/json"])
     fun deletePerson(@RequestBody person: Person): HttpEntity<*> {
-        databaseSimulator.delete(person)
-        return ResponseEntity.EMPTY
+        return databaseSimulator.delete(person).let { deleted ->
+            if (deleted) HttpEntity.EMPTY
+            else ResponseEntity<Person>(HttpStatus.NOT_FOUND)
+        }
     }
 
     @DeleteMapping("/{id}")
     fun deletePersonById(@PathVariable id: Int?): HttpEntity<*> {
-        databaseSimulator.getById(id ?: -1)
-            ?.let { databaseSimulator.delete(it) }
-        return ResponseEntity.EMPTY
+        return databaseSimulator.getById(id ?: -1)
+            ?.let { databaseSimulator.delete(it); ResponseEntity.EMPTY }
+            ?: ResponseEntity<Person>(HttpStatus.NOT_FOUND)
     }
 
 }

@@ -6,7 +6,6 @@ import graphql.schema.DataFetcher
 import graphql.schema.DataFetchingEnvironment
 import org.springframework.stereotype.Component
 
-
 @Component
 class GraphQLDataFetchers {
 

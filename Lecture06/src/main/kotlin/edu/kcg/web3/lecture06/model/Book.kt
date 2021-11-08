@@ -6,5 +6,3 @@ data class Book(
     val author: Author,
     var id: Int = -1
 )
-
-
