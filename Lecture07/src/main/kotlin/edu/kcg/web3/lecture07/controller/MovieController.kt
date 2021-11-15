@@ -9,14 +9,13 @@ import org.springframework.ui.set
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 
-
 @Controller
 class MovieController(@Autowired private val restTemplate: RestTemplate) {
 
     @GetMapping("/movies")
     fun getMovies(model: Model): String {
         model["title"] = "Search movies"
-        model["movie"] = emptyList<Movie>()
+        model["movies"] = emptyList<Movie>()
         return "movie"
     }
 
@@ -26,7 +25,7 @@ class MovieController(@Autowired private val restTemplate: RestTemplate) {
         val movieSearchResult = restTemplate.getForObject(url, MovieSearchResult::class.java)
 
         model["title"] = "Search movies"
-        model["movie"] = movieSearchResult?.Search ?: emptyList<Movie>()
+        model["movies"] = movieSearchResult?.Search ?: emptyList<Movie>()
         return "movie"
     }
 

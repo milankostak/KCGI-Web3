@@ -9,7 +9,7 @@
     <div>
         <input type="submit" value="Search">
     </div>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
 </form>
 
 <table>
@@ -19,14 +19,14 @@
         <th>IMDB ID</th>
         <th>Poster</th>
     </tr>
-    {{#movie}}
+    {{#movies}}
         <tr>
             <td>{{Title}}</td>
             <td>{{Year}}</td>
             <td><a href="https://www.imdb.com/title/{{imdbID}}/">IMDB page</a></td>
             <td><img src="{{Poster}}" alt="Poster for {{Title}}" height="150px"></td>
         </tr>
-    {{/movie}}
+    {{/movies}}
 </table>
 
 {{> includes/footer}}

@@ -10,8 +10,8 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
-
 
 @Controller
 @RequestMapping("/person")
@@ -22,7 +22,7 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
     private val serverBaseName = "http://127.0.0.1:8080"
 
     @RequestMapping("/{id}")
-    fun getAll(model: Model, @PathVariable id: Long): String {
+    fun getPerson (model: Model, @PathVariable id: Long): String {
         try {
             val personResponse =
                 restTemplate.getForEntity("$serverBaseName/people/$id", Person::class.java)
@@ -33,8 +33,13 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
                 logger.warn("An error occurred while getting a person with id=$id. Status code was ${personResponse.statusCodeValue}")
             }
         } catch (e: Exception) {
-            logger.error("An error occurred while getting a person with id=$id", e)
-            model["person"] = "Error while getting the person"
+            if (e is HttpClientErrorException && e.statusCode == HttpStatus.NOT_FOUND) {
+                logger.warn("A person with id=$id was not found", e)
+                model["person"] = "Person was not found"
+            } else {
+                logger.error("An error occurred while getting a person with id=$id", e)
+                model["person"] = "Error while getting the person"
+            }
         }
         model["title"] = "Person page"
         return "person"
@@ -43,7 +48,7 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
     @RequestMapping("/insert/{name}/{age}/{language}")
     fun insertPerson(
         model: Model, @PathVariable name: String,
-        @PathVariable age: Int, @PathVariable language: String
+        @PathVariable age: Long, @PathVariable language: String
     ): String {
         val headers = getHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
@@ -56,7 +61,7 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
             model["person"] = "Person inserted."
         } else {
             model["person"] = "An error occurred."
-            logger.warn("An error occurred while inserting a person with name=$name, age=$age, language=$language. Status code was ${response.statusCodeValue}")
+            logger.warn("An error occurred while inserting a person with name=$name, age=$age, language=$language. Status code was ${response.statusCodeValue}.")
         }
 
         model["title"] = "Create a person"
@@ -65,8 +70,8 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
 
     @RequestMapping("/update/{id}/{name}/{age}/{language}")
     fun updatePerson(
-        model: Model, @PathVariable id: String, @PathVariable name: String,
-        @PathVariable age: String, @PathVariable language: String
+        model: Model, @PathVariable id: Long, @PathVariable name: String,
+        @PathVariable age: Long, @PathVariable language: String
     ): String {
         val headers = getHeaders()
         headers.contentType = MediaType.APPLICATION_JSON

@@ -18,8 +18,10 @@ class QuoteController {
     @RequestMapping("/quote")
     fun getQuote(model: Model): String {
         try {
-            val quoteResponse =
-                RestTemplate().getForEntity("https://quoters.apps.pcfone.io/api/random", QuoteContainer::class.java)
+            val quoteResponse = RestTemplate().getForEntity(
+                "https://quoters.apps.pcfone.io/api/random",
+                QuoteContainer::class.java
+            )
 
             if (quoteResponse.statusCode == HttpStatus.OK) {
                 val quoteContainer = quoteResponse.body
@@ -30,7 +32,7 @@ class QuoteController {
             }
         } catch (e: RestClientException) {
             logger.error("An error occurred when getting a quote from the API", e)
-            model["quote"] = ""
+            model["quote"] = "An unknown error occurred"
         }
 
         model["title"] = "Quote page"
