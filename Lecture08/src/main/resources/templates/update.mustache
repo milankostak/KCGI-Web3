@@ -6,19 +6,19 @@
 
 <form action="/person/update" method="post">
     <div>
-        <label>Email: <br><input type="text" name="email" value="{{person.email}}"/> </label>
+        <label>Email: <br><input type="text" name="email" value="{{person.email}}"></label>
     </div>
     <div>
-        <label>Password: <br><input type="password" name="password" /> </label>
+        <label>Password: <br><input type="password" name="password"></label>
     </div>
     <div>
-        <label>Age: <br><input type="number" name="age" value="{{person.age}}"/> </label>
+        <label>Age: <br><input type="number" name="age" value="{{person.age}}"></label>
     </div>
-    <input type="hidden" name="id" value="{{person.id}}"/>
+    <input type="hidden" name="id" value="{{person.id}}">
     <div style="margin-top: 8px;">
-        <input type="submit" value="Save"/>
+        <input type="submit" value="Save">
     </div>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
 </form>
 
 <p>{{message}}</p>

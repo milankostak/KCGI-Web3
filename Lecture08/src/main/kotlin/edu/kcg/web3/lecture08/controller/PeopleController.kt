@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/person")
 class PeopleController(
     @Autowired val personRepository: PersonRepository,
-    @Autowired val passwordEncoder: PasswordEncoder
+    @Autowired val passwordEncoder: PasswordEncoder,
 ) {
 
     @GetMapping("/show")
-    fun showAll(model: Model, @RequestParam showDeleted: Boolean?): String {
+    fun showAll(model: Model, @RequestParam showDeleted: Boolean? = null): String {
         model["title"] = "All people"
 
         val people = if (showDeleted == null || showDeleted == true) {
@@ -46,7 +46,7 @@ class PeopleController(
         model: Model, @RequestParam email: String?, @RequestParam password: String?, @RequestParam age: String?
     ): String {
         return if (email.isNullOrBlank() || password.isNullOrBlank() || age.isNullOrBlank()) {
-            model["message"] = "Some parameters were empty or blank!"
+            model["message"] = "Some properties were empty or blank!"
             model["title"] = "Inserting person"
             "insert"
         } else {
@@ -57,9 +57,8 @@ class PeopleController(
             }
             personRepository.save(person)
             model["message"] = "Changes saved"
-            showAll(model, null)
+            showAll(model)
         }
-
     }
 
     @GetMapping("/permanent-delete/{id}")
@@ -103,7 +102,7 @@ class PeopleController(
         if (id == null || email.isNullOrBlank() || age.isNullOrBlank()) {
             model["message"] = "Update failed. Some properties were empty or blank!"
         } else {
-            personRepository.findByIdOrNull(id)?.also {
+            personRepository.findByIdOrNull(id)?.let {
                 it.email = email
                 if (password?.isNotBlank() == true) {
                     it.passwordHash = passwordEncoder.encode(password)
@@ -115,7 +114,7 @@ class PeopleController(
                 model["message"] = "Person with id=$id was not found"
             }
         }
-        return showAll(model, null)
+        return showAll(model)
     }
 
 }
