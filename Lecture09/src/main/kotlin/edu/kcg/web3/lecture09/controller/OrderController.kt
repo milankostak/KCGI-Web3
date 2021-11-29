@@ -11,13 +11,12 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 
-
 @Controller
 @RequestMapping("/orders")
 class OrderController(
     @Autowired private val shopOrderRepository: ShopOrderRepository,
     @Autowired private val productRepository: ProductRepository,
-    @Autowired private val customerRepository: CustomerRepository
+    @Autowired private val customerRepository: CustomerRepository,
 ) {
 
     @RequestMapping

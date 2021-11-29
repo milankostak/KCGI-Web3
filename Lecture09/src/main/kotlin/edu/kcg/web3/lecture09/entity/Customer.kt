@@ -2,7 +2,6 @@ package edu.kcg.web3.lecture09.entity
 
 import javax.persistence.*
 
-
 @Entity(name = "customer")
 class Customer {
 

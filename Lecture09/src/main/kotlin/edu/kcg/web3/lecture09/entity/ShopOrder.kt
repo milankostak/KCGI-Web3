@@ -3,7 +3,6 @@ package edu.kcg.web3.lecture09.entity
 import java.time.Instant
 import javax.persistence.*
 
-
 @Entity(name = "shop_order")
 class ShopOrder {
 

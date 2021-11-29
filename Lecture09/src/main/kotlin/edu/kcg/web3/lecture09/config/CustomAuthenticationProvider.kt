@@ -11,11 +11,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
-
 @Component
 class CustomAuthenticationProvider(
     @Autowired private val customerRepository: CustomerRepository,
-    @Autowired private val passwordEncoder: PasswordEncoder
+    @Autowired private val passwordEncoder: PasswordEncoder,
 ) : AuthenticationProvider {
 
     @Throws(AuthenticationException::class)

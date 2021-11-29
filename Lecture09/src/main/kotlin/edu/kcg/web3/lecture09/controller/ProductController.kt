@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam
 @Controller
 @RequestMapping("/products")
 class ProductController(
-    @Autowired private val productRepository: ProductRepository
+    @Autowired private val productRepository: ProductRepository,
 ) {
 
     @RequestMapping
@@ -37,7 +37,7 @@ class ProductController(
     }
 
     @RequestMapping("/{id}/orders")
-    fun productDetail(model: Model, @PathVariable id: String): String {
+    fun productOrders(model: Model, @PathVariable id: String): String {
         model["title"] = "Product detail"
         model["orders"] = productRepository.findByIdOrNull(id.toLongOrNull())?.shopOrders ?: emptySet<ShopOrder>()
         return "products-orders"
