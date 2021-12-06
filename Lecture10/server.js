@@ -30,11 +30,11 @@ app.get("/csv", (req, res) => {
 });
 
 app.get("/params", (req, res) => {
-    res.end("Hello world!" + req.query.id);
+    res.end("Hello world! ID from query: " + req.query.id);
 });
 
 app.get("/params/:id", (req, res) => {
-    res.end("Hello world!" + req.params.id);
+    res.end("Hello world! ID from params: " + req.params.id);
 });
 
 app.get("/users/all", (req, res) => {
