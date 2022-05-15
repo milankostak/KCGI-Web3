@@ -4,9 +4,9 @@
     "email": "m_kostak@kcg.edu"
   },
   "dependencies": {
-    "express": "4.17.1",
-    "ws": "7.5.1",
-    "mqtt": "4.2.8"
+    "express": "4.18.1",
+    "ws": "8.6.0",
+    "mqtt": "4.3.7"
   },
   "description": "Introduction to server side JS. (2)",
   "main": "server.js",
