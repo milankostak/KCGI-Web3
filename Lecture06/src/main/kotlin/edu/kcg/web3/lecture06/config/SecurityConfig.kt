@@ -7,38 +7,29 @@ import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.SecurityFilterChain
 
 @EnableWebSecurity
-class SecurityConfig : WebSecurityConfigurerAdapter() {
+class SecurityConfig {
 
     private val logger = LoggerFactory.getLogger(SecurityConfig::class.java)
 
     @Autowired
-    fun configureGlobal(auth: AuthenticationManagerBuilder) {
+    fun configureGlobal(auth: AuthenticationManagerBuilder, passwordEncoder: PasswordEncoder) {
         logger.info("Configuring in-memory authentication")
         auth.inMemoryAuthentication()
             .withUser("user")
-            .password(passwordEncoder().encode("password"))
+            .password(passwordEncoder.encode("password"))
             .roles("USER")
             .and()
             .withUser("admin")
-            .password(passwordEncoder().encode("password"))
+            .password(passwordEncoder.encode("password"))
             .roles("ADMIN")
     }
 
     @Bean
-    fun passwordEncoder(): PasswordEncoder {
-//        return BCryptPasswordEncoder()
-//        return BCryptPasswordEncoder(13)
-//        return SCryptPasswordEncoder()
-        return Argon2PasswordEncoder()
-        // please do not use anything else (applies in 2021, WILL change in the future)
-    }
-
-    override fun configure(http: HttpSecurity) {
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
         logger.info("Configuring security")
         http.logout()
             .logoutUrl("/logout")
@@ -56,6 +47,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .and().httpBasic()
             .and().cors()
             .and().csrf().disable()
+        return http.build()
     }
 
 }
