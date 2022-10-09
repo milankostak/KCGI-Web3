@@ -1,6 +1,6 @@
 package edu.kcg.web3.lecture07.controller
 
-import edu.kcg.web3.lecture07.model.QuoteContainer
+import edu.kcg.web3.lecture07.model.Quote
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -19,13 +19,13 @@ class QuoteController {
     fun getQuote(model: Model): String {
         try {
             val quoteResponse = RestTemplate().getForEntity(
-                "https://quoters.apps.pcfone.io/api/random",
-                QuoteContainer::class.java
+                "https://catfact.ninja/fact",
+                Quote::class.java
             )
 
             if (quoteResponse.statusCode == HttpStatus.OK) {
-                val quoteContainer = quoteResponse.body
-                val value = quoteContainer?.value?.quote ?: "error"
+                val quote = quoteResponse.body
+                val value = quote?.fact ?: "error"
                 model["quote"] = value
             } else {
                 model["quote"] = "An error occurred. Status code was ${quoteResponse.statusCodeValue}"
