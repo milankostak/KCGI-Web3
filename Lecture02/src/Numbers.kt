@@ -11,7 +11,7 @@ fun main() {
     println(k)
 
     val m: Float = 5F
-//    val n = 5.toFloat() // won't work, 5 is integer
+//    val n: Int = 5.toFloat() // won't work, cannot convert to Int
 //    val o: Float = 5.0 // won't work, 5.0 is double
     val p = 5.toFloat()
 

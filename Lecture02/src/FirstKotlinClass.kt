@@ -18,8 +18,8 @@ fun main() {
 
     // constants and variables with type declaration
     val e: Int
-    e = 10
     var f: String
+    e = 10
     f = "hello"
     f = "world"
     val g: Long = 50

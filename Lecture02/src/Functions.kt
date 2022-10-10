@@ -16,6 +16,7 @@ class Functions {
     }
 
     fun saveTextToFile(content: String, filename: String = "default_file.csv") {
+        println("Saving '$content' into file '$filename'.")
         // ...
     }
 
@@ -26,5 +27,6 @@ fun main() {
     a.name = "George"
     a.printInfo()
     a.printString("something")
-    a.saveTextToFile("content", "some_other_file.txt")
+    a.saveTextToFile("content")
+    a.saveTextToFile("another content", "some_other_file.txt")
 }
