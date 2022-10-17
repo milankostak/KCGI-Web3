@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Tomcat 9.0.45" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.45" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+  <configuration default="false" name="Tomcat 10.1.1" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.1" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
     <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/lecture03b/" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
@@ -10,7 +10,7 @@
       </artifact>
     </deployment>
     <server-settings>
-      <option name="BASE_DIRECTORY_NAME" value="b74b1c80-6447-4d6e-9858-09bcd0f58833" />
+      <option name="BASE_DIRECTORY_NAME" value="c4e680d1-a5f8-4e44-8766-676d58f84054" />
     </server-settings>
     <predefined_log_file enabled="true" id="Tomcat" />
     <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -18,7 +18,7 @@
     <predefined_log_file id="Tomcat Host Manager" />
     <predefined_log_file id="Tomcat Localhost Access" />
     <RunnerSettings RunnerId="Debug">
-      <option name="DEBUG_PORT" value="49348" />
+      <option name="DEBUG_PORT" value="61842" />
     </RunnerSettings>
     <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
       <option name="USE_ENV_VARIABLES" value="true" />
