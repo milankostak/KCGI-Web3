@@ -17,7 +17,7 @@ fun main() {
     val result2 = numbers2
             .map { it.length }
             .filter { it > 3 }
-            .let {
+            .let { // "also" would be a better function to use here
                 println("printing inside let (2)")
                 println(it)
                 it

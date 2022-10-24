@@ -9,9 +9,9 @@ fun main() {
     println(allMultiplied) // 120
 
     println("reversed")
-    println(numbers2.reversed())
+    println(numbers2.reversed()) // [5, 4, 3, 2, 1]
     println("shuffled")
-    println(numbers2.shuffled())
+    println(numbers2.shuffled()) // [4, 2, 5, 1, 3] // different for each run
     println("shuffled sorted")
     println(numbers2.shuffled().sorted())
     println("minOrNull")
