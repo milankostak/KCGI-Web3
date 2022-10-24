@@ -9,5 +9,9 @@ fun main() {
         println("$i - ${collection[i]}")
     }
 
+    for ((i, item) in collection.withIndex()) {
+        println("$i - $item")
+    }
+
     // https://kotlinlang.org/docs/control-flow.html#for-loops
 }

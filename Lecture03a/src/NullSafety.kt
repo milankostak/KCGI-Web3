@@ -11,6 +11,7 @@ fun main() {
 //    println(b.length) // NOT ok to do that, compilation error
     // necessary to check
     println(b?.length) // if b is null then it does not ask for its length
+//    println(if (b != null) b.length else "null") // long version of the previous line
     println(b!!.length) // DANGEROUS operation, if b is null then exception is thrown
 }
 
