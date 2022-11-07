@@ -47,7 +47,7 @@ class SecurityConfig {
             // ending configuring authorization and continuing
             .and()
             // allowing default login page at /login URL
-            // with automatic redirection
+            // with automatic redirections
             .formLogin()
         return http.build()
     }
