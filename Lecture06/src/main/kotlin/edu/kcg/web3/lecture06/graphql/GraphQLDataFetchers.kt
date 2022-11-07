@@ -19,7 +19,7 @@ class GraphQLDataFetchers {
     fun getBooksDataFetcher(): DataFetcher<List<Book>> {
         return DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
             val bookIds: List<String>? = dataFetchingEnvironment.getArgument("ids")
-            if (bookIds == null || bookIds.isEmpty()) {
+            if (bookIds.isNullOrEmpty()) {
                 books
             } else {
                 books.filter { bookIds.contains(it.id.toString()) }
@@ -37,7 +37,7 @@ class GraphQLDataFetchers {
     fun getAuthorsDataFetcher(): DataFetcher<List<Author>> {
         return DataFetcher { dataFetchingEnvironment: DataFetchingEnvironment ->
             val authorIds: List<String>? = dataFetchingEnvironment.getArgument("ids")
-            if (authorIds == null || authorIds.isEmpty()) {
+            if (authorIds.isNullOrEmpty()) {
                 authors
             } else {
                 authors.filter { authorIds.contains(it.id.toString()) }

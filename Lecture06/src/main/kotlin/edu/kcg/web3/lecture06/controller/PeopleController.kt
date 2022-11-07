@@ -5,6 +5,7 @@ import edu.kcg.web3.lecture06.model.Person
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -30,19 +31,19 @@ class PeopleController(@Autowired private val databaseSimulator: PeopleDatabaseS
         }
     }
 
-    @PostMapping(consumes = ["application/json"])
+    @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun insertPerson(@RequestBody person: Person): HttpEntity<*> {
         databaseSimulator.insert(person)
         return ResponseEntity.EMPTY
     }
 
-    @PutMapping(consumes = ["application/json"])
+    @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun updatePerson(@RequestBody person: Person): HttpEntity<*> {
         databaseSimulator.update(person)
         return HttpEntity.EMPTY
     }
 
-    @DeleteMapping(consumes = ["application/json"])
+    @DeleteMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun deletePerson(@RequestBody person: Person): HttpEntity<*> {
         return databaseSimulator.delete(person).let { deleted ->
             if (deleted) HttpEntity.EMPTY

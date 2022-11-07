@@ -13,14 +13,13 @@ import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
 
 @Component
-class GraphQLProvider {
+class GraphQLProvider(
+    @Autowired private val graphQLDataFetchers: GraphQLDataFetchers,
+) {
 
     private val logger = LoggerFactory.getLogger(GraphQLProvider::class.java)
 
     private var graphQL: GraphQL? = null
-
-    @Autowired
-    private var graphQLDataFetchers: GraphQLDataFetchers? = null
 
     @Bean
     fun graphQL(): GraphQL? {
@@ -47,10 +46,10 @@ class GraphQLProvider {
 
     private fun buildWiring(): RuntimeWiring {
         return RuntimeWiring.newRuntimeWiring()
-            .type(newTypeWiring("Query").dataFetcher("book", graphQLDataFetchers?.getBookDataFetcher()))
-            .type(newTypeWiring("Query").dataFetcher("books", graphQLDataFetchers?.getBooksDataFetcher()))
-            .type(newTypeWiring("Query").dataFetcher("author", graphQLDataFetchers?.getAuthorDataFetcher()))
-            .type(newTypeWiring("Query").dataFetcher("authors", graphQLDataFetchers?.getAuthorsDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("book", graphQLDataFetchers.getBookDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("books", graphQLDataFetchers.getBooksDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("author", graphQLDataFetchers.getAuthorDataFetcher()))
+            .type(newTypeWiring("Query").dataFetcher("authors", graphQLDataFetchers.getAuthorsDataFetcher()))
             .build()
     }
 }

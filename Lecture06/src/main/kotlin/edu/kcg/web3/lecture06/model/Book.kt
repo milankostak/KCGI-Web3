@@ -4,5 +4,5 @@ data class Book(
     val name: String,
     val pageCount: Int,
     val author: Author,
-    var id: Int = -1
+    var id: Int = -1,
 )
