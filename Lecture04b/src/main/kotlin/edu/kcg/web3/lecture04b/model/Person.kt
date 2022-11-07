@@ -4,5 +4,5 @@ data class Person(
     val name: String = "",
     var age: Int = 0,
     var favouriteLanguage: String = "",
-    var id: Int = -1
+    var id: Int = -1,
 )
