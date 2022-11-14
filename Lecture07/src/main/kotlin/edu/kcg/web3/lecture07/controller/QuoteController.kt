@@ -24,9 +24,8 @@ class QuoteController {
             )
 
             if (quoteResponse.statusCode == HttpStatus.OK) {
-                val quote = quoteResponse.body
-                val value = quote?.fact ?: "error"
-                model["quote"] = value
+                val quote = quoteResponse.body ?: throw RestClientException("Response body was null!")
+                model["quote"] = quote.fact
             } else {
                 model["quote"] = "An error occurred. Status code was ${quoteResponse.statusCodeValue}"
             }
