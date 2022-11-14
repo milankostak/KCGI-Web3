@@ -22,7 +22,7 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
     private val serverBaseName = "http://127.0.0.1:8080"
 
     @RequestMapping("/{id}")
-    fun getPerson (model: Model, @PathVariable id: Long): String {
+    fun getPerson(model: Model, @PathVariable id: Long): String {
         try {
             val personResponse =
                 restTemplate.getForEntity("$serverBaseName/people/$id", Person::class.java)
@@ -47,14 +47,14 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
 
     @RequestMapping("/insert/{name}/{age}/{language}")
     fun insertPerson(
-        model: Model, @PathVariable name: String,
-        @PathVariable age: Long, @PathVariable language: String
+        model: Model, @PathVariable name: String, @PathVariable age: Long, @PathVariable language: String
     ): String {
         val headers = getHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
-        val personJSON = "{\"name\":\"$name\",\"age\":$age,\"favouriteLanguage\":\"$language\"}"
 
-        val request = HttpEntity(personJSON, headers)
+        val person = Person(name, age, language, null)
+        val request = HttpEntity(person, headers)
+
         val response = restTemplate.exchange("$serverBaseName/people", HttpMethod.POST, request, Void::class.java)
 
         if (response.statusCode == HttpStatus.OK) {
@@ -70,14 +70,13 @@ class PeopleController(@Autowired private val restTemplate: RestTemplate) {
 
     @RequestMapping("/update/{id}/{name}/{age}/{language}")
     fun updatePerson(
-        model: Model, @PathVariable id: Long, @PathVariable name: String,
-        @PathVariable age: Long, @PathVariable language: String
+        model: Model,
+        @PathVariable id: Long, @PathVariable name: String, @PathVariable age: Long, @PathVariable language: String
     ): String {
         val headers = getHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
-        val personJSON = "{\"name\":\"$name\",\"age\":$age,\"favouriteLanguage\":\"$language\",\"id\":$id}"
-
-        val request = HttpEntity(personJSON, headers)
+        val person = Person(name, age, language, id)
+        val request = HttpEntity(person, headers)
         val response = restTemplate.exchange("$serverBaseName/people", HttpMethod.PUT, request, Void::class.java)
 
         if (response.statusCode == HttpStatus.OK) {
