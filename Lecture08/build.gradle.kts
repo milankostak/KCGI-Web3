@@ -25,14 +25,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-mustache:$springBootVersion")
 	implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion")
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion") // not included in the final build
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 	implementation("org.bouncycastle:bcprov-jdk18on:1.72") // password hashing
-	runtimeOnly("org.postgresql:postgresql:42.5.0")
+	runtimeOnly("org.postgresql:postgresql:42.5.0") // included only in the final build
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }

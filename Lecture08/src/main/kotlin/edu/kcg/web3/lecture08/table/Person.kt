@@ -9,21 +9,22 @@ class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     var id: Long? = null
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     var email: String = ""
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     var passwordHash: String = ""
 
-    @Column(name = "age")
+    @Column(name = "age", nullable = false)
     var age: Long = 0
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", nullable = false)
     var deleted: Boolean = false
 
-    @Column(name = "registration_time")
+    @Column(name = "registration_time", nullable = false)
     var registrationTime: Instant = Instant.now()
 
 }
