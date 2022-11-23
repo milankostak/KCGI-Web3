@@ -24,7 +24,7 @@ class Person {
     @Column(name = "deleted", nullable = false)
     var deleted: Boolean = false
 
-    @Column(name = "registration_time", nullable = false)
+    @Column(name = "registration_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     var registrationTime: Instant = Instant.now()
 
 }
