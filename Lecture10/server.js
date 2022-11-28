@@ -7,7 +7,7 @@ const expressHbs = require("express-handlebars");
 const app = express();
 app.use(express.urlencoded({extended: true}));
 
-app.engine("handlebars", expressHbs());
+app.engine("handlebars", expressHbs.engine());
 app.set("view engine", "handlebars");
 
 
