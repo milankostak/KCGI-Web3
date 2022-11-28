@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.7.5"
-	id("io.spring.dependency-management") version "1.0.14.RELEASE"
+	id("org.springframework.boot") version "2.7.6"
+	id("io.spring.dependency-management") version "1.0.15.RELEASE"
 	war
-	kotlin("jvm") version "1.7.20"
-	kotlin("plugin.spring") version "1.7.20"
-	kotlin("plugin.jpa") version "1.7.20"
+	kotlin("jvm") version "1.7.21"
+	kotlin("plugin.spring") version "1.7.21"
+	kotlin("plugin.jpa") version "1.7.21"
 }
 
 group = "edu.kcg.web3"
@@ -17,8 +17,8 @@ repositories {
 	mavenCentral()
 }
 
-val springBootVersion = "2.7.5"
-val kotlinVersion = "1.7.20"
+val springBootVersion = "2.7.6"
+val kotlinVersion = "1.7.21"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
@@ -32,7 +32,7 @@ dependencies {
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 	implementation("org.bouncycastle:bcprov-jdk18on:1.72") // password hashing
-	runtimeOnly("org.postgresql:postgresql:42.5.0")
+	runtimeOnly("org.postgresql:postgresql:42.5.1")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
