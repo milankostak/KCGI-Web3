@@ -14,12 +14,12 @@ class SecurityConfig {
     private val logger = LoggerFactory.getLogger(SecurityConfig::class.java)
 
     @Autowired
-    private val authProvider: CustomAuthenticationProvider? = null
+    private val customAuthenticationProvider: CustomAuthenticationProvider? = null
 
     @Autowired
     fun configAuthentication(auth: AuthenticationManagerBuilder) {
         logger.info("Registering AuthenticationProvider")
-        auth.authenticationProvider(authProvider)
+        auth.authenticationProvider(customAuthenticationProvider)
     }
 
     @Bean

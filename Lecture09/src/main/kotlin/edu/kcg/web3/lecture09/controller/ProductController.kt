@@ -4,6 +4,7 @@ import edu.kcg.web3.lecture09.entity.Product
 import edu.kcg.web3.lecture09.entity.ShopOrder
 import edu.kcg.web3.lecture09.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,7 +23,7 @@ class ProductController(
     @RequestMapping
     fun showAllProducts(model: Model): String {
         model["title"] = "Products page"
-        model["products"] = productRepository.findAll().sortedBy { it.id }
+        model["products"] = productRepository.findAll(Sort.by(Sort.Direction.ASC, Product::name.name))
         return "products"
     }
 

@@ -5,6 +5,7 @@ import edu.kcg.web3.lecture09.repository.CustomerRepository
 import edu.kcg.web3.lecture09.repository.ProductRepository
 import edu.kcg.web3.lecture09.repository.ShopOrderRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,7 +23,7 @@ class OrderController(
     @RequestMapping
     fun showAllOrders(model: Model): String {
         model["title"] = "Products page"
-        model["orders"] = shopOrderRepository.findAll().sortedBy { it.id }
+        model["orders"] = shopOrderRepository.findAll(Sort.by(Sort.Direction.ASC, ShopOrder::id.name))
         return "orders"
     }
 

@@ -30,7 +30,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.0")
 	implementation("org.bouncycastle:bcprov-jdk18on:1.72") // password hashing
 	runtimeOnly("org.postgresql:postgresql:42.5.0")
 

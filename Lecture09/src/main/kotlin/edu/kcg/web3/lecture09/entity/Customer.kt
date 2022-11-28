@@ -7,16 +7,36 @@ class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_customer")
+    @Column(name = "id_customer", nullable = false)
     val id: Long? = null
 
     @Column(name = "email", nullable = false, unique = true)
-    val email: String = ""
+    var email: String = ""
 
     @Column(name = "password", nullable = false)
-    val password: String = ""
+    var password: String = ""
 
-    @OneToMany(mappedBy = "customer", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "customer")
     val shopOrders: Set<ShopOrder> = setOf()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Customer
+
+        if (id != other.id) return false
+        if (email != other.email) return false
+        if (password != other.password) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = id?.hashCode() ?: 0
+        result = 31 * result + email.hashCode()
+        result = 31 * result + password.hashCode()
+        return result
+    }
 
 }
