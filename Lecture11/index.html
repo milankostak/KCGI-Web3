@@ -23,23 +23,26 @@
             xhr.send(null);
         };
 
-        const sendRequestNew = (path, callback) => {
+        const sendRequestFetch = (path, callback) => {
             fetch(path)
                 .then(response => response.json())
-                // .then(json => console.log(json))
+                // .then(json => {
+                //     console.log(json);
+                //     return json;
+                // })
                 .then(json => callback(JSON.stringify(json)))
                 // .then(callback)
                 .catch(error => console.log("Error:", error));
         };
 
-        sendRequestNew("/ajax", (responseText) => {
+        sendRequestFetch("/ajax", (responseText) => {
             console.log(responseText);
         });
 
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelector("#button").addEventListener("click", () => {
-                sendRequestNew("/ajax-random", (responseText) => {
-                    document.querySelector("#result").innerHTML = responseText;
+                sendRequestFetch("/ajax-random", (responseText) => {
+                    document.querySelector("#result").innerText = responseText;
 
                     const div = document.createElement("div");
                     div.innerText = responseText;
@@ -49,7 +52,7 @@
         });
 
         setInterval(() => {
-            sendRequestNew("/ajax-random", responseText => {
+            sendRequestFetch("/ajax-random", responseText => {
                 const div = document.createElement("div");
                 div.innerText = responseText;
                 document.body.append(div);
@@ -58,7 +61,7 @@
     </script>
 </head>
 <body>
-<h1>Test</h1>
+<h1>Test Ajax</h1>
 <button id="button">Send Ajax request</button>
 <div id="result"></div>
 </body>

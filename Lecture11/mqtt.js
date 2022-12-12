@@ -4,9 +4,9 @@ const mqtt = require("mqtt");
 const client = mqtt.connect("mqtt://test.mosquitto.org");
 
 client.on("connect", () => {
-    client.subscribe("presence", () => {
-        client.publish("presence", "Hello mqtt");
-    });
+    client.subscribe("presence");
+    client.publish("presence", "Hello mqtt");
+
     client.subscribe(["home/#", "house/#"]);
 });
 
