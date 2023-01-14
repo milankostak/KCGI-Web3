@@ -1,5 +1,6 @@
 package edu.kcg.web3.lecture09.config
 
+import edu.kcg.web3.lecture09.entity.Customer
 import edu.kcg.web3.lecture09.repository.CustomerRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationProvider
@@ -21,6 +22,17 @@ class CustomAuthenticationProvider(
     override fun authenticate(authentication: Authentication): Authentication {
         val email = authentication.name
         val password = authentication.credentials.toString()
+
+        // create the first customer on the first login attempt
+        if (customerRepository.findAll().isEmpty()) {
+            Customer().apply {
+                this.email = email
+                this.password = passwordEncoder.encode(password)
+            }.also {
+                customerRepository.save(it)
+            }
+        }
+
         val customer = customerRepository.findByEmail(email)
 
         if (customer != null && customer.password.isNotEmpty() && passwordEncoder.matches(password, customer.password)) {
