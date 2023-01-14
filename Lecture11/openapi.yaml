@@ -1,0 +1,90 @@
+openapi: 3.0.0
+
+info:
+  version: '1.0'
+  title: "REST API"
+  description: "Some general description of the API"
+
+paths:
+  /locations:
+    post:
+      tags:
+        - WRITING DATA
+      summary: "Write a location."
+      description: "Saves a location into the system. Location is related to the user under which it is written. Secured endpoint."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Locations'
+      responses:
+        "200":
+          description: OK
+      security:
+        - userAuth: [ ]
+
+  /status:
+    get:
+      tags:
+        - META
+      summary: "Check health of the REST API."
+      description: "Prints `running` if REST API is up and running."
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "running"
+
+components:
+
+  schemas:
+
+    Locations:
+      type: object
+      example:
+        [
+          {
+            "accuracy": 15.604,
+            "distance": 8617977.0,
+            "latitude": 50.020168,
+            "longitude": 21.004168,
+            "provider": "network",
+            "stationCode": "YTARA",
+            "timestamp": 1636093823858,
+            "uuid": "923ca681-c14f-45c1-9f9a-a34ae01ab7e4"
+          }
+        ]
+      properties:
+        accuracy:
+          type: number
+          format: double
+        distance:
+          type: number
+          format: double
+          description: "distance from the nearest station in millimeters"
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        altitude:
+          type: number
+          format: double
+        provider:
+          type: string
+        stationCode:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+        uuid:
+          type: string
+
+  securitySchemes:
+    userAuth:
+      type: http
+      scheme: bearer

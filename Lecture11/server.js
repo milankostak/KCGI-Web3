@@ -14,6 +14,14 @@ app.get("/ws", (req, res) => {
     res.sendFile(path.join(__dirname, "/ws.html"));
 });
 
+app.get("/openapi.yaml", (req, res) => {
+    res.sendFile(path.join(__dirname, "/openapi.yaml"));
+});
+
+app.get("/swagger.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "/swagger.html"));
+});
+
 app.get("/ajax", (req, res) => {
     const user = {
         "email": "test@example.com",
