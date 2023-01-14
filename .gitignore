@@ -1,6 +1,7 @@
 # JetBrains IDE
 .idea
 out
+output
 build
 *.iml
 

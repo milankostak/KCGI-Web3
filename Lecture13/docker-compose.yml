@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14.6-alpine
+    container_name: kcg_postgres
+    volumes:
+      - ./output/data/postgres:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5430:5432"
+
+  lecture09:
+    depends_on:
+      - postgres
+    image: lecture-09:latest
+    container_name: Lecture09
+    ports:
+      - "8080:8080"
