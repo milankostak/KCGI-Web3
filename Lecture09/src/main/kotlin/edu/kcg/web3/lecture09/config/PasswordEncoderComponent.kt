@@ -14,7 +14,7 @@ class PasswordEncoderComponent {
 //        return BCryptPasswordEncoder(13)
 //        return SCryptPasswordEncoder()
         return Argon2PasswordEncoder()
-        // please do not use anything else (applies in 2021, WILL change in the future)
+        // please do not use anything else (applies in 2022, WILL change in the future)
     }
 
 }

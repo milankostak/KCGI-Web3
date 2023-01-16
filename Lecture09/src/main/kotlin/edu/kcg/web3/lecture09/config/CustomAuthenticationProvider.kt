@@ -24,6 +24,7 @@ class CustomAuthenticationProvider(
         val password = authentication.credentials.toString()
 
         // create the first customer on the first login attempt
+        // not a proper solution, only for testing
         if (customerRepository.findAll().isEmpty()) {
             Customer().apply {
                 this.email = email
