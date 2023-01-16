@@ -17,5 +17,6 @@ services:
       - postgres
     image: lecture-09:latest
     container_name: Lecture09
+    restart: always
     ports:
       - "8080:8080"
