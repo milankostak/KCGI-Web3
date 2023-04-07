@@ -14,7 +14,8 @@
   "resolutions": {
     "minimatch": "3.0.5",
     "json5": ">=2.2.2",
-    "dns-packet": ">=5.4.0"
+    "dns-packet": ">=5.4.0",
+    "webpack": ">=5.76.0"
   },
   "scripts": {
     "start": "react-scripts start",
