@@ -16,7 +16,8 @@
     "word-wrap": ">=1.2.4",
     "@adobe/css-tools": ">=4.3.2",
     "postcss": ">=8.4.31",
-    "@babel/traverse": ">=7.23.2"
+    "@babel/traverse": ">=7.23.2",
+    "follow-redirects": ">=1.15.4"
   },
   "resolutions": {
     "minimatch": "3.0.5",
