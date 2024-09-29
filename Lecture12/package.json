@@ -23,7 +23,8 @@
     "ejs": ">=3.1.10",
     "braces": ">=3.0.3",
     "ws": ">=8.17.1",
-    "rollup": ">=2.79.2"
+    "rollup": ">=2.79.2",
+    "path-to-regexp": ">=0.1.10"
   },
   "resolutions": {
     "minimatch": "3.0.5",
