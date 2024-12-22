@@ -15,6 +15,7 @@
         };
 
         ws.onmessage = msg => {
+            console.log(msg);
             document.querySelector("#messages").innerHTML += `<div>${msg.data}</div>`;
         };
     </script>

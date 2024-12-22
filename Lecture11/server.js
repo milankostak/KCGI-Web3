@@ -48,8 +48,9 @@ wsServer.on("connection", socket => {
 
     // When you receive a message, send that message to every socket.
     socket.on("message", msg => {
-        console.log("Received:", msg);
-        wsClients.forEach(client => client.send(msg));
+        const data = msg.toString()
+        console.log("Received:", data);
+        wsClients.forEach(client => client.send(data));
     });
 
     // When a socket closes, or disconnects, remove it from the array.
