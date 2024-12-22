@@ -4,13 +4,10 @@
     "email": "m_kostak@kcg.edu"
   },
   "dependencies": {
-    "express": ">=4.20.0",
+    "express": ">=4.21.2",
     "express-handlebars": "6.0.6",
     "body-parser": ">=1.20.3",
-    "send": ">=0.19.0",
-    "serve-static": ">=1.16.0",
-    "path-to-regexp": ">=0.1.12",
-    "cookie": ">=0.7.0"
+    "send": ">=0.19.0"
   },
   "description": "Introduction to server side JS.",
   "main": "server.js",
