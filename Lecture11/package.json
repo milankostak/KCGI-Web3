@@ -7,10 +7,11 @@
     "express": ">=4.20.0",
     "ws": ">=8.17.1",
     "mqtt": "4.3.7",
-    "path-to-regexp": ">=0.1.10",
     "body-parser": ">=1.20.3",
     "serve-static": ">=1.16.0",
-    "send": ">=0.19.0"
+    "send": ">=0.19.0",
+    "path-to-regexp": ">=0.1.12",
+    "cookie": ">=0.7.0"
   },
   "description": "Introduction to server side JS. (2)",
   "main": "server.js",
